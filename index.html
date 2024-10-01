@@ -48,7 +48,7 @@
         button:hover {
             background-color: #218838;
         }
-        #resultado, #countdown {
+        #resultado, #faltante, #countdown {
             margin-top: 20px;
             font-size: 20px;
             font-weight: bold;
@@ -69,6 +69,7 @@
             <input type="number" id="numero" placeholder="Ingrese un número">
             <button onclick="sumarNumero()">Insertar número</button>
             <div id="resultado">Suma total: 0</div>
+            <div id="faltante">Faltan: 45,000,000</div>
         </div>
     </div>
 
@@ -96,9 +97,11 @@
         setInterval(actualizarContador, 1000); // Actualizar el contador cada segundo
 
         // Sumador de números
+        const objetivo = 45000000;
         let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
 
         document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal;
+        document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
 
         function sumarNumero() {
             const numero = document.getElementById('numero').value;
@@ -106,12 +109,14 @@
                 sumaTotal += parseFloat(numero);
                 localStorage.setItem('sumaTotal', sumaTotal); // Guardar en localStorage
                 document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal;
+                document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
                 document.getElementById('numero').value = ''; // Limpiar la caja de texto
             }
         }
     </script>
 </body>
 </html>
+
 
 
 
