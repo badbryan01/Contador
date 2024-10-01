@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumador de Números</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="number"] {
+            padding: 10px;
+            width: calc(100% - 24px);
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sumador de Números</h1>
+        <input type="number" id="numero" placeholder="Ingrese un número">
+        <button onclick="sumarNumero()">Insertar número</button>
+        <div id="resultado">Suma total: 0</div>
+    </div>
+
+    <script>
+        let sumaTotal = 0;
+
+        function sumarNumero() {
+            const numero = document.getElementById('numero').value;
+            if (numero !== '') {
+                sumaTotal += parseFloat(numero);
+                document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal;
+                document.getElementById('numero').value = ''; // Limpiar la caja de texto
+            }
+        }
+    </script>
+</body>
+</html>
