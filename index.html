@@ -3,54 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Moderno</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
+
         .login-container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             max-width: 400px;
             width: 100%;
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.5s ease-out;
         }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
         input[type="text"], input[type="password"] {
             width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
+            padding: 15px;
+            margin-bottom: 15px;
             border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        button {
+            padding: 15px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
+
         button:hover {
-            background-color: #218838;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            transform: scale(1.05);
         }
+
         .error {
-            color: red;
+            color: #e74c3c;
             margin-bottom: 10px;
             display: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Bienvenido</h1>
         <div id="error-message" class="error">Credenciales incorrectas</div>
         <input type="text" id="username" placeholder="Usuario">
         <input type="password" id="password" placeholder="Contraseña">
@@ -58,20 +93,16 @@
     </div>
 
     <script>
-        // Credenciales: usuario y contraseña hash
+        // Credenciales: usuario y contraseña
         const validUsername = 'Bryan';
-        const validPasswordHash = '719e46c8f2c3c7e9f525c10cb7b1be63';
-
-        function md5(string) {
-            return CryptoJS.MD5(string).toString();
-        }
+        const validPassword = 'Acosta';
 
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Verificar credenciales con hash de la contraseña
-            if (username === validUsername && md5(password) === validPasswordHash) {
+            // Verificar credenciales directamente
+            if (username === validUsername && password === validPassword) {
                 // Redirigir a la página principal (la página del sumador)
                 window.location.href = 'sumador.html';
             } else {
@@ -80,7 +111,6 @@
             }
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 </body>
 </html>
