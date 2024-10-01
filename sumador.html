@@ -89,27 +89,34 @@
     <div class="container">
         <!-- Contador regresivo 1 -->
         <div class="card">
-            <h1>==¿Cuanto falta para volar?</h1>
+            <h2>Fecha objetivo: 30-09-2025</h2>
+            <h1>¿Cuánto falta para volar?</h1> 
             <div id="countdown">Cargando...</div>
         </div>
 
         <!-- Sumador de números -->
         <div class="card">
-            <h1>¿Cuanto llevamos?</h1>
+            <h2>Fecha actual: <span id="fechaActual"></span></h2>
+            <h1>¿Cuánto llevamos?</h1>
             <input type="number" id="numero" placeholder="Ingrese un número">
             <button onclick="sumarNumero()">Agregar Fondos</button>
             <div id="resultado">Suma total: 0</div>
             <div id="faltante">Faltan: 45,000,000</div>
+            <button onclick="salir()">Salir</button>
         </div>
 
         <!-- Contador regresivo 2 -->
         <div class="card">
-            <h1>¿Cuanto faltan para las vacaciones?</h1>
+            <h2>Fecha objetivo: 21-03-2025</h2>
+            <h1>¿Cuánto falta para las vacaciones?</h1>
             <div id="countdown2">Cargando...</div>
         </div>
     </div>
 
     <script>
+        // Mostrar la fecha actual
+        document.getElementById('fechaActual').innerText = new Date().toLocaleDateString();
+
         // Fechas objetivo
         const fechaObjetivo1 = new Date('2025-09-30T00:00:00').getTime();
         const fechaObjetivo2 = new Date('2025-03-21T00:00:00').getTime();
@@ -166,6 +173,11 @@
                 document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
                 document.getElementById('numero').value = '';
             }
+        }
+
+        // Función para redirigir al index.html
+        function salir() {
+            window.location.href = 'index.html';
         }
     </script>
 </body>
