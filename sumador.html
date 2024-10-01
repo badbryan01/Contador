@@ -225,8 +225,18 @@
         const objetivo = 45000000;
         let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
 
+        // Función para actualizar el color de acuerdo con el progreso
+        function actualizarColor() {
+            const porcentaje = sumaTotal / objetivo;
+            const color = `hsl(${(120 * porcentaje)}, 100%, 50%)`; // Rojo (0°) a verde (120°)
+            document.getElementById('resultado').style.color = color;
+            document.getElementById('faltante').style.color = porcentaje >= 1 ? 'green' : color;
+        }
+
+        // Inicializar los valores en la página
         document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
         document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+        actualizarColor();
 
         function sumarNumero() {
             const numero = parseFloat(document.getElementById('numero').value);
@@ -235,6 +245,7 @@
                 localStorage.setItem('sumaTotal', sumaTotal);
                 document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
                 document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+                actualizarColor();
                 document.getElementById('numero').value = '';
             }
         }
