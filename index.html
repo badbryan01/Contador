@@ -5,81 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #1e1e2f;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
-
         .login-container {
-            background-color: #2c2c3a;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
-            text-align: center;
         }
-
-        h1 {
-            color: #ffffff;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
         input[type="text"], input[type="password"] {
             width: calc(100% - 20px);
-            padding: 15px;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 8px;
-            background-color: #3c3c4f;
-            color: #fff;
-            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        input[type="text"]::placeholder, input[type="password"]::placeholder {
-            color: #b0b0c3;
-        }
-
         button {
-            padding: 15px 20px;
-            background-color: #ff6b6b;
+            padding: 10px 15px;
+            background-color: #28a745;
             color: white;
             border: none;
             cursor: pointer;
             width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
+            border-radius: 5px;
         }
-
         button:hover {
-            background-color: #ff4c4c;
+            background-color: #218838;
         }
-
         .error {
-            color: #ff6b6b;
+            color: red;
             margin-bottom: 10px;
             display: none;
-        }
-
-        .login-container input, .login-container button {
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <h1>Iniciar Sesión</h1>
+        <h1>Login</h1>
         <div id="error-message" class="error">Credenciales incorrectas</div>
         <input type="text" id="username" placeholder="Usuario">
         <input type="password" id="password" placeholder="Contraseña">
@@ -87,9 +58,9 @@
     </div>
 
     <script>
-        // Credenciales almacenadas como hashes (ejemplo sencillo)
-        const validUsername = 'admin';
-        const validPasswordHash = '82b746d5b09a556f33f2fa5d0ab7598a'; // md5
+        // Credenciales: usuario y contraseña hash
+        const validUsername = 'Bryan';
+        const validPasswordHash = '719e46c8f2c3c7e9f525c10cb7b1be63';
 
         function md5(string) {
             return CryptoJS.MD5(string).toString();
