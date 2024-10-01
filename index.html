@@ -49,12 +49,15 @@
     </div>
 
     <script>
-        let sumaTotal = 0;
+        let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
+
+        document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal;
 
         function sumarNumero() {
             const numero = document.getElementById('numero').value;
             if (numero !== '') {
                 sumaTotal += parseFloat(numero);
+                localStorage.setItem('sumaTotal', sumaTotal); // Guardar en localStorage
                 document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal;
                 document.getElementById('numero').value = ''; // Limpiar la caja de texto
             }
@@ -62,3 +65,4 @@
     </script>
 </body>
 </html>
+
