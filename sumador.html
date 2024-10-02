@@ -111,29 +111,6 @@
             font-weight: bold;
         }
 
-        /* Estilos del gráfico de progreso */
-        .progress-container {
-            width: 100%;
-            background-color: #292929;
-            border-radius: 25px;
-            height: 30px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #ff0000;
-            border-radius: 25px;
-            transition: width 0.5s ease, background-color 0.5s ease;
-        }
-
-        .progress-text {
-            margin-top: 10px;
-            font-size: 1.2em;
-        }
-
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -165,12 +142,6 @@
         <div class="card">
             <h1>¿Cuánto falta para volar?</h1> 
             <div id="countdown">Cargando...</div>
-
-            <!-- Contenedor del gráfico de progreso para volar -->
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar-vuelo"></div>
-            </div>
-            <div class="progress-text" id="progress-text-vuelo">Progreso: 0%</div>
         </div>
 
         <!-- Sumador de números -->
@@ -186,12 +157,6 @@
         <div class="card">
             <h1>¿Cuánto falta para las vacaciones?</h1>
             <div id="countdown2">Cargando...</div>
-
-            <!-- Contenedor del gráfico de progreso para vacaciones -->
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar-vacaciones"></div>
-            </div>
-            <div class="progress-text" id="progress-text-vacaciones">Progreso: 0%</div>
         </div>
     </div>
 
@@ -219,17 +184,6 @@
         // Fechas objetivo
         const fechaObjetivo1 = new Date('2025-09-30T00:00:00').getTime();
         const fechaObjetivo2 = new Date('2025-03-21T00:00:00').getTime();
-        const fechaInicio = new Date('2023-10-01T00:00:00').getTime(); // Fecha actual de inicio
-
-        // Función para actualizar el progreso y color
-        function actualizarProgreso(barra, texto, porcentaje) {
-            barra.style.width = `${porcentaje}%`;
-
-            // Cambiar el color de la barra de rojo (lejos) a verde (cerca)
-            const hue = (120 * porcentaje) / 100; // De 0 (rojo) a 120 (verde)
-            barra.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
-            texto.innerText = `Progreso: ${porcentaje.toFixed(2)}%`;
-        }
 
         // Funciones para actualizar los contadores
         function actualizarContador1() {
@@ -242,16 +196,6 @@
             const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
             document.getElementById('countdown').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-
-            // Calcular y actualizar el progreso del vuelo
-            const tiempoTotalVuelo = fechaObjetivo1 - fechaInicio;
-            const tiempoTranscurridoVuelo = ahora - fechaInicio;
-            const porcentajeProgresoVuelo = (tiempoTranscurridoVuelo / tiempoTotalVuelo) * 100;
-            actualizarProgreso(
-                document.getElementById('progress-bar-vuelo'), 
-                document.getElementById('progress-text-vuelo'), 
-                porcentajeProgresoVuelo
-            );
 
             if (diferencia < 0) {
                 document.getElementById('countdown').innerText = '¡Tiempo terminado!';
@@ -269,24 +213,47 @@
 
             document.getElementById('countdown2').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
 
-            // Calcular y actualizar el progreso de las vacaciones
-            const tiempoTotalVacaciones = fechaObjetivo2 - fechaInicio;
-            const tiempoTranscurridoVacaciones = ahora - fechaInicio;
-            const porcentajeProgresoVacaciones = (tiempoTranscurridoVacaciones / tiempoTotalVacaciones) * 100;
-            actualizarProgreso(
-                document.getElementById('progress-bar-vacaciones'), 
-                document.getElementById('progress-text-vacaciones'), 
-                porcentajeProgresoVacaciones
-            );
-
             if (diferencia < 0) {
                 document.getElementById('countdown2').innerText = '¡Tiempo terminado!';
             }
         }
 
-        // Actualizar los contadores cada segundo
         setInterval(actualizarContador1, 1000);
         setInterval(actualizarContador2, 1000);
+
+        // Sumador de números
+        const objetivo = 45000000;
+        let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
+
+        // Función para actualizar el color de acuerdo con el progreso
+        function actualizarColor() {
+            const porcentaje = sumaTotal / objetivo;
+            const color = `hsl(${(120 * porcentaje)}, 100%, 50%)`; // Rojo (0°) a verde (120°)
+            document.getElementById('resultado').style.color = color;
+            document.getElementById('faltante').style.color = porcentaje >= 1 ? 'green' : color;
+        }
+
+        // Inicializar los valores en la página
+        document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
+        document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+        actualizarColor();
+
+        function sumarNumero() {
+            const numero = parseFloat(document.getElementById('numero').value);
+            if (!isNaN(numero)) {
+                sumaTotal += numero;
+                localStorage.setItem('sumaTotal', sumaTotal);
+                document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
+                document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+                actualizarColor();
+                document.getElementById('numero').value = '';
+            }
+        }
+
+        // Función para redirigir al index.html
+        function salir() {
+            window.location.href = 'index.html';
+        }
     </script>
 </body>
 </html>
