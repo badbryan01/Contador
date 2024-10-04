@@ -145,6 +145,13 @@
             transition: background-color 0.4s ease;
         }
 
+        /* Leyenda debajo de la barra de progreso */
+        .progress-text {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #03dac6;
+        }
+
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -179,6 +186,7 @@
             <div class="progress-container">
                 <div id="progress-bar-vuelo" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
             </div>
+            <div class="progress-text">Progreso</div>
         </div>
 
         <!-- Sumador de números -->
@@ -191,6 +199,7 @@
             <div class="progress-container">
                 <div id="progress-bar-fondos" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
             </div>
+            <div class="progress-text">Progreso</div>
         </div>
 
         <!-- Contador regresivo 2 -->
@@ -200,6 +209,7 @@
             <div class="progress-container">
                 <div id="progress-bar-vacaciones" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
             </div>
+            <div class="progress-text">Progreso</div>
         </div>
     </div>
 
