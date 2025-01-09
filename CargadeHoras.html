@@ -13,12 +13,12 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url('https://es.wallpapers.com/images/hd/disfrutade-la-emocionante-experiencia-de-juego-de-la-playstation-4-v3zinmjg20yz8vvz.jpg') no-repeat center center / cover;
+            background: url('https://wallpapers.com/images/high/ps4-theme-bu6p671ib8bunf48.webp') no-repeat center center / cover;
             color: #ffffff;
         }
 
         .container {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             padding: 20px;
@@ -53,8 +53,29 @@
             background-color: #333;
         }
 
+        td {
+            position: relative;
+        }
+
+        td button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ff3333;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        td button:hover {
+            background-color: #cc0000;
+        }
+
         input[type="text"], input[type="number"] {
-            width: 100%;
+            width: calc(100% - 40px);
             padding: 8px;
             border: none;
             border-radius: 4px;
@@ -105,6 +126,7 @@
                 <tr>
                     <th>Descripción</th>
                     <th>Cantidad</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -114,7 +136,6 @@
         <div class="horas">
             <span>Horas a cargar en el mes:</span>
             <input type="number" id="horasInput" min="0">
-            <button onclick="guardarHoras()">Guardar</button>
         </div>
     </div>
 
@@ -146,7 +167,6 @@
         function guardarHoras() {
             const horas = document.getElementById('horasInput').value;
             localStorage.setItem('horasMes', horas);
-            alert(`Horas a cargar en el mes guardadas: ${horas}`);
         }
 
         function crearFila(descripcion = '', cantidad = 0) {
@@ -169,8 +189,19 @@
             };
             celdaCantidad.appendChild(inputCantidad);
 
+            const celdaAccion = document.createElement('td');
+            const botonEliminar = document.createElement('button');
+            botonEliminar.textContent = 'Eliminar';
+            botonEliminar.onclick = () => {
+                fila.remove();
+                actualizarTotal();
+                guardarDatosEnCookies();
+            };
+            celdaAccion.appendChild(botonEliminar);
+
             fila.appendChild(celdaDescripcion);
             fila.appendChild(celdaCantidad);
+            fila.appendChild(celdaAccion);
 
             return fila;
         }
