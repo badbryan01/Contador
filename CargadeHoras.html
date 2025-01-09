@@ -6,30 +6,31 @@
     <title>Asignaciones</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            background: url('https://es.wallpapers.com/images/hd/disfrutade-la-emocionante-experiencia-de-juego-de-la-playstation-4-v3zinmjg20yz8vvz.jpg') no-repeat center center / cover;
+            color: #ffffff;
         }
 
         .container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             padding: 20px;
             width: 90%;
             max-width: 600px;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
+            text-align: center;
             margin-bottom: 20px;
-            color: #333;
+            color: #ffcc00;
         }
 
         table {
@@ -39,44 +40,59 @@
         }
 
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #ffffff;
         }
 
         th, td {
             padding: 10px;
             text-align: left;
+            color: #ffffff;
         }
 
         th {
-            background-color: #f9f9f9;
+            background-color: #333;
         }
 
         input[type="text"], input[type="number"] {
             width: 100%;
             padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
+            border: none;
             border-radius: 4px;
+            color: #000;
         }
 
         button {
-            background-color: #007bff;
-            color: white;
+            background-color: #ffcc00;
+            color: #000;
             padding: 10px 15px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #ffaa00;
         }
 
-        .total {
+        .total, .horas {
             font-size: 18px;
             font-weight: bold;
             text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .horas {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .horas input {
+            width: 80px;
+            padding: 6px;
         }
     </style>
 </head>
@@ -95,11 +111,19 @@
             </tbody>
         </table>
         <div class="total">Total: <span id="totalSum">0</span></div>
+        <div class="horas">
+            <span>Horas a cargar en el mes:</span>
+            <input type="number" id="horasInput" min="0">
+            <button onclick="guardarHoras()">Guardar</button>
+        </div>
     </div>
 
     <script>
         function cargarDatosDesdeCookies() {
             const datosGuardados = JSON.parse(localStorage.getItem('asignaciones')) || [];
+            const horasGuardadas = localStorage.getItem('horasMes') || '';
+            document.getElementById('horasInput').value = horasGuardadas;
+
             const tbody = document.querySelector('#tablaAsignaciones tbody');
             datosGuardados.forEach(({ descripcion, cantidad }) => {
                 const fila = crearFila(descripcion, cantidad);
@@ -117,6 +141,12 @@
                 };
             });
             localStorage.setItem('asignaciones', JSON.stringify(datos));
+        }
+
+        function guardarHoras() {
+            const horas = document.getElementById('horasInput').value;
+            localStorage.setItem('horasMes', horas);
+            alert(`Horas a cargar en el mes guardadas: ${horas}`);
         }
 
         function crearFila(descripcion = '', cantidad = 0) {
