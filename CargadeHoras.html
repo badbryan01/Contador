@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Asignaciones</h1>
+        <button onclick="insertarFila()">Agregar Asignación</button>
+        <table id="tablaAsignaciones">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="total">Total: <span id="totalSum">0</span></div>
+    </div>
+
+    <script>
+        function cargarDatosDesdeCookies() {
+            const datosGuardados = JSON.parse(localStorage.getItem('asignaciones')) || [];
+            const tbody = document.querySelector('#tablaAsignaciones tbody');
+            datosGuardados.forEach(({ descripcion, cantidad }) => {
+                const fila = crearFila(descripcion, cantidad);
+                tbody.appendChild(fila);
+            });
+            actualizarTotal();
+        }
+
+        function guardarDatosEnCookies() {
+            const filas = document.querySelectorAll('#tablaAsignaciones tbody tr');
+            const datos = Array.from(filas).map(fila => {
+                return {
+                    descripcion: fila.querySelector('input[type="text"]').value,
+                    cantidad: parseFloat(fila.querySelector('input[type="number"]').value) || 0
+                };
+            });
+            localStorage.setItem('asignaciones', JSON.stringify(datos));
+        }
+
+        function crearFila(descripcion = '', cantidad = 0) {
+            const fila = document.createElement('tr');
+
+            const celdaDescripcion = document.createElement('td');
+            const inputDescripcion = document.createElement('input');
+            inputDescripcion.type = 'text';
+            inputDescripcion.value = descripcion;
+            inputDescripcion.oninput = guardarDatosEnCookies;
+            celdaDescripcion.appendChild(inputDescripcion);
+
+            const celdaCantidad = document.createElement('td');
+            const inputCantidad = document.createElement('input');
+            inputCantidad.type = 'number';
+            inputCantidad.value = cantidad;
+            inputCantidad.oninput = () => {
+                actualizarTotal();
+                guardarDatosEnCookies();
+            };
+            celdaCantidad.appendChild(inputCantidad);
+
+            fila.appendChild(celdaDescripcion);
+            fila.appendChild(celdaCantidad);
+
+            return fila;
+        }
+
+        function insertarFila() {
+            const tbody = document.querySelector('#tablaAsignaciones tbody');
+            const nuevaFila = crearFila();
+            tbody.appendChild(nuevaFila);
+            guardarDatosEnCookies();
+        }
+
+        function actualizarTotal() {
+            const filas = document.querySelectorAll('#tablaAsignaciones tbody tr');
+            const total = Array.from(filas).reduce((suma, fila) => {
+                const cantidad = parseFloat(fila.querySelector('input[type="number"]').value) || 0;
+                return suma + cantidad;
+            }, 0);
+            document.getElementById('totalSum').innerText = total.toLocaleString();
+        }
+
+        window.onload = cargarDatosDesdeCookies;
+    </script>
+</body>
+</html>
