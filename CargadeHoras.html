@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url('https://wallpapers.com/images/high/ps4-theme-bu6p671ib8bunf48.webp') no-repeat center center / cover;
+            background: url('https://wallpapers.com/images/high/dark-web-pictures-y1d9mzm1e3t2ytss.webp') no-repeat center center / cover;
             color: #ffffff;
         }
 
@@ -97,7 +97,7 @@
             background-color: #ffaa00;
         }
 
-        .total, .horas {
+        .totals {
             font-size: 18px;
             font-weight: bold;
             text-align: right;
@@ -106,14 +106,25 @@
 
         .horas {
             display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            flex-direction: column;
             gap: 10px;
         }
 
+        .horas-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         .horas input {
-            width: 80px;
+            width: 100px;
             padding: 6px;
+        }
+
+        .salir {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -132,10 +143,19 @@
             <tbody>
             </tbody>
         </table>
-        <div class="total">Total: <span id="totalSum">0</span></div>
+        <div class="totals">Total: <span id="totalSum">0</span></div>
         <div class="horas">
-            <span>Horas a cargar en el mes:</span>
-            <input type="number" id="horasInput" min="0">
+            <div class="horas-row">
+                <span>Horas a cargar en el mes:</span>
+                <input type="number" id="horasInput" min="0" oninput="actualizarHorasRestantes()">
+            </div>
+            <div class="horas-row">
+                <span>Horas Restantes:</span>
+                <span id="horasRestantes">0</span>
+            </div>
+        </div>
+        <div class="salir">
+            <button onclick="window.location.href='Redireccionamiento.html'">Salir</button>
         </div>
     </div>
 
@@ -186,6 +206,7 @@
             inputCantidad.oninput = () => {
                 actualizarTotal();
                 guardarDatosEnCookies();
+                actualizarHorasRestantes();
             };
             celdaCantidad.appendChild(inputCantidad);
 
@@ -196,6 +217,7 @@
                 fila.remove();
                 actualizarTotal();
                 guardarDatosEnCookies();
+                actualizarHorasRestantes();
             };
             celdaAccion.appendChild(botonEliminar);
 
@@ -220,6 +242,14 @@
                 return suma + cantidad;
             }, 0);
             document.getElementById('totalSum').innerText = total.toLocaleString();
+            actualizarHorasRestantes();
+        }
+
+        function actualizarHorasRestantes() {
+            const horasMes = parseFloat(document.getElementById('horasInput').value) || 0;
+            const total = parseFloat(document.getElementById('totalSum').innerText.replace(/,/g, '')) || 0;
+            const horasRestantes = horasMes - total;
+            document.getElementById('horasRestantes').innerText = horasRestantes.toLocaleString();
         }
 
         window.onload = cargarDatosDesdeCookies;
