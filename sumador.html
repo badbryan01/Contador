@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiempo de Espera</title>
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -17,7 +18,11 @@
             margin: 0;
         }
 
-         .fechas {
+        /* =========================
+           FECHA OBJETIVO 1
+           ========================= */
+
+        .fechas {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,6 +35,7 @@
         #fechaObjetivo1 {
             font-size: 1.2em;
             font-weight: bold;
+            text-align: center;
         }
 
         /*
@@ -39,15 +45,14 @@
         }
         */
 
-        #fechaObjetivo1 {
-            text-align: center;
-        }
-        /* Estilos de fecha actual y fecha objetivo 2 conservados, pero desactivados. */
+        /* =========================
+           CONTENEDOR
+           ========================= */
 
         .container {
             display: grid;
             gap: 20px;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr;
             width: 80%;
             max-width: 1200px;
         }
@@ -70,7 +75,10 @@
             color: #ff9800;
         }
 
-        #resultado, #faltante, #countdown, #countdown2 {
+        #resultado,
+        #faltante,
+        #countdown,
+        #countdown2 {
             margin-top: 20px;
             font-size: 1.5em;
             font-weight: bold;
@@ -87,6 +95,7 @@
             background-color: #292929;
             color: #ffffff;
             box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
         }
 
         button {
@@ -113,6 +122,10 @@
             font-weight: bold;
         }
 
+        /* =========================
+           BARRA DE PROGRESO
+           ========================= */
+
         .progress-container {
             background-color: #3a3a3a;
             border-radius: 20px;
@@ -126,23 +139,30 @@
         .progress-bar {
             height: 100%;
             background-size: 40px 40px;
-            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.15) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.15) 75%,
+                transparent 75%,
+                transparent
+            );
+
             animation: diagonal-stripes 1s linear infinite;
-            transition: width 0.4s ease;
+            transition: width 0.4s ease, background-color 0.4s ease;
         }
 
         @keyframes diagonal-stripes {
             from {
                 background-position: 0 0;
             }
+
             to {
                 background-position: 40px 40px;
             }
-        }
-
-        .progress-bar[data-color="dynamic"] {
-            background-color: red;
-            transition: background-color 0.4s ease;
         }
 
         .progress-text {
@@ -150,6 +170,10 @@
             font-size: 1.2em;
             color: #03dac6;
         }
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
 
         @media (max-width: 768px) {
             .container {
@@ -162,186 +186,481 @@
                 text-align: center;
             }
 
-            #fechaObjetivo1, #fechaObjetivo2 {
+            #fechaObjetivo1 {
                 text-align: center;
             }
         }
     </style>
 </head>
+
 <body>
 
+    <!-- =========================
+         FECHA OBJETIVO 1
+         ========================= -->
+
     <div class="fechas">
-        <div id="fechaObjetivo1">Fecha objetivo 1: 30-08-2026</div>
-        <!-- <div id="fechaActual">Fecha actual: Cargando...</div> -->
-        <div id="fechaObjetivo2">Fecha objetivo 2: 01-10-2025</div>
+        <div id="fechaObjetivo1">
+            Fecha objetivo 1: 30-08-2026
+        </div>
+
+        <!--
+        Fecha actual desactivada:
+
+        <div id="fechaActual">
+            Fecha actual: Cargando...
+        </div>
+        -->
+
+        <!--
+        Fecha objetivo 2 eliminada visualmente:
+
+        <div id="fechaObjetivo2">
+            Fecha objetivo 2: 01-10-2025
+        </div>
+        -->
     </div>
+
+
+    <!-- =========================
+         CONTENEDOR PRINCIPAL
+         ========================= -->
 
     <div class="container">
+
+        <!-- FECHA OBJETIVO 1 -->
+
         <div class="card">
-            <h1>¿Cuánto falta para la fecha objetivo 1?</h1> 
-            <div id="countdown">Cargando...</div>
-            <div class="progress-container">
-                <div id="progress-bar-vuelo" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
+
+            <h1>
+                ¿Cuánto falta para la fecha objetivo 1?
+            </h1>
+
+            <div id="countdown">
+                Cargando...
             </div>
-            <div class="progress-text">Progreso</div>
+
+            <div class="progress-container">
+                <div
+                    id="progress-bar-vuelo"
+                    class="progress-bar"
+                    style="width: 100%; background-color: hsl(120, 100%, 50%);">
+                </div>
+            </div>
+
+            <div class="progress-text">
+                Tiempo restante
+            </div>
+
         </div>
+
+
         <!--
-<div class="card">
+        =========================
+        CUÁNTO LLEVAMOS
+        =========================
+
+        Se mantiene comentado.
+
+        <div class="card">
             <h1>¿Cuánto llevamos?</h1>
-            <input type="number" id="numero" placeholder="Ingrese un número">
-            <button onclick="sumarNumero()">Agregar Fondos</button>
-            <div id="resultado">Suma total: 0</div>
-            <div id="faltante">Faltan: 40,000,000</div>
-            <div class="progress-container">
-                <div id="progress-bar-fondos" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
+
+            <input
+                type="number"
+                id="numero"
+                placeholder="Ingrese un número">
+
+            <button onclick="sumarNumero()">
+                Agregar Fondos
+            </button>
+
+            <div id="resultado">
+                Suma total: 0
             </div>
-            <div class="progress-text">Progreso</div>
+
+            <div id="faltante">
+                Faltan: 40,000,000
+            </div>
+
+            <div class="progress-container">
+                <div
+                    id="progress-bar-fondos"
+                    class="progress-bar"
+                    style="width: 0%;"
+                    data-color="dynamic">
+                </div>
+            </div>
+
+            <div class="progress-text">
+                Progreso
+            </div>
         </div>
         -->
+
+
         <!--
-        <!--
-<div class="card">
-            <h1>¿Cuánto falta para la fecha objetivo 2?</h1>
-            <div id="countdown2">Cargando...</div>
-            <div class="progress-container">
-                <div id="progress-bar-vacaciones" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
-        -->
+        =========================
+        FECHA OBJETIVO 2
+        =========================
+
+        Se mantiene completamente comentado.
+
+        <div class="card">
+
+            <h1>
+                ¿Cuánto falta para la fecha objetivo 2?
+            </h1>
+
+            <div id="countdown2">
+                Cargando...
             </div>
-            <div class="progress-text">Progreso</div>
+
+            <div class="progress-container">
+                <div
+                    id="progress-bar-vacaciones"
+                    class="progress-bar"
+                    style="width: 0%;"
+                    data-color="dynamic">
+                </div>
+            </div>
+
+            <div class="progress-text">
+                Progreso
+            </div>
+
         </div>
         -->
+
     </div>
+
+
+    <!-- =========================
+         BOTÓN SALIR
+         ========================= -->
 
     <div id="botonSalir">
-        <button onclick="salir()">Salir</button>
+
+        <button onclick="salir()">
+            Salir
+        </button>
+
     </div>
 
+
     <script>
+
         /*
-function actualizarFechaActual() {
+        =========================
+        FECHA ACTUAL
+        =========================
+
+        Desactivada.
+
+        function actualizarFechaActual() {
+
             const fecha = new Date();
-            const opciones = { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit', 
+
+            const opciones = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
                 second: '2-digit'
             };
-            document.getElementById('fechaActual').innerText = 'Fecha actual: ' + fecha.toLocaleDateString('es-ES', opciones);
+
+            document.getElementById('fechaActual').innerText =
+                'Fecha actual: ' +
+                fecha.toLocaleDateString('es-ES', opciones);
         }
+
         setInterval(actualizarFechaActual, 1000);
         */
 
-        const fechaObjetivo1 = new Date('2026-08-30T00:00:00').getTime();
-        /* const fechaObjetivo2 = new Date('2025-10-01T00:00:00').getTime(); */
-
-        function actualizarProgreso(barra, porcentaje) {
-            barra.style.width = porcentaje + '%';
-            barra.style.backgroundColor = `hsl(${(120 * porcentaje) / 100}, 100%, 50%)`;
-        }
-
-        function actualizarContador1() {
-            const ahora = new Date().getTime();
-            const diferencia = fechaObjetivo1 - ahora;
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-
-            const tiempoTotal = fechaObjetivo1 - new Date('2023-10-04T00:00:00').getTime();
-            const porcentaje = 100 - (diferencia / tiempoTotal) * 100;
-            actualizarProgreso(document.getElementById('progress-bar-vuelo'), porcentaje);
-
-            if (diferencia < 0) {
-                document.getElementById('countdown').innerText = '¡Tiempo terminado!';
-            }
-        }
-
-        function actualizarContador1() {
-            const ahora = new Date().getTime();
-            const diferencia = fechaObjetivo1 - ahora;
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-
-            const tiempoTotal = fechaObjetivo1 - new Date('2023-10-04T00:00:00').getTime();
-            const porcentaje = 100 - (diferencia / tiempoTotal) * 100;
-            actualizarProgreso(document.getElementById('progress-bar-vuelo'), porcentaje);
-
-            if (diferencia < 0) {
-                document.getElementById('countdown').innerText = '¡Tiempo terminado!';
-            }
-        }
-
-        setInterval(actualizarContador1, 1000);
 
         /*
-        function actualizarContador2() {
-            const ahora = new Date().getTime();
-            const diferencia = fechaObjetivo2 - ahora;
+        =========================
+        FECHA OBJETIVO
+        =========================
 
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown2').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-
-            const tiempoTotal = fechaObjetivo2 - new Date('2023-10-04T00:00:00').getTime();
-            const porcentaje = 100 - (diferencia / tiempoTotal) * 100;
-            actualizarProgreso(document.getElementById('progress-bar-vacaciones'), porcentaje);
-
-            if (diferencia < 0) {
-                document.getElementById('countdown2').innerText = '¡Tiempo terminado!';
-            }
-        }
-
-        setInterval(actualizarContador1, 1000);
-        setInterval(actualizarContador2, 1000);
+        30 de agosto de 2026 a las 00:00:00.
         */
 
+        const fechaObjetivo1 =
+            new Date('2026-08-30T00:00:00').getTime();
+
 
         /*
-        const objetivo = 40000000;
-        let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
+        =========================
+        ACTUALIZAR BARRA
+        =========================
 
-        function actualizarColor() {
-            const porcentaje = sumaTotal / objetivo * 100;
-            actualizarProgreso(document.getElementById('progress-bar-fondos'), porcentaje);
+        La barra representa el tiempo restante.
+
+        100% = queda todo el tiempo
+        50%  = queda la mitad del tiempo
+        0%   = se llegó a la fecha objetivo
+        */
+
+        function actualizarProgreso(barra, porcentaje) {
+
+            /*
+            Evitamos valores inferiores a 0
+            o superiores a 100.
+            */
+
+            porcentaje = Math.max(0, Math.min(100, porcentaje));
+
+            barra.style.width = porcentaje + '%';
+
+
+            /*
+            Color dinámico:
+
+            120 = verde
+            60  = amarillo
+            0   = rojo
+            */
+
+            const tono = (120 * porcentaje) / 100;
+
+            barra.style.backgroundColor =
+                `hsl(${tono}, 100%, 50%)`;
         }
 
-        document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
-        document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+
+        /*
+        =========================
+        CONTADOR OBJETIVO 1
+        =========================
+        */
+
+        function actualizarContador1() {
+
+            const ahora = new Date().getTime();
+
+            const diferencia =
+                fechaObjetivo1 - ahora;
+
+
+            /*
+            Si ya llegamos a la fecha objetivo.
+            */
+
+            if (diferencia <= 0) {
+
+                document.getElementById('countdown').innerText =
+                    '¡Tiempo terminado!';
+
+                actualizarProgreso(
+                    document.getElementById('progress-bar-vuelo'),
+                    0
+                );
+
+                return;
+            }
+
+
+            /*
+            Conversión del tiempo restante.
+            */
+
+            const dias =
+                Math.floor(
+                    diferencia /
+                    (1000 * 60 * 60 * 24)
+                );
+
+            const horas =
+                Math.floor(
+                    (diferencia %
+                        (1000 * 60 * 60 * 24)) /
+                    (1000 * 60 * 60)
+                );
+
+            const minutos =
+                Math.floor(
+                    (diferencia %
+                        (1000 * 60 * 60)) /
+                    (1000 * 60)
+                );
+
+            const segundos =
+                Math.floor(
+                    (diferencia %
+                        (1000 * 60)) /
+                    1000
+                );
+
+
+            /*
+            Mostrar contador.
+            */
+
+            document.getElementById('countdown').innerText =
+                `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+
+
+            /*
+            =========================
+            PROGRESO REAL DEL TIEMPO
+            =========================
+
+            Tomamos como referencia:
+
+            - Ahora = 100% restante
+            - Fecha objetivo = 0% restante
+
+            La duración restante se calcula
+            dinámicamente desde el momento actual
+            hasta el 30-08-2026.
+            */
+
+            const tiempoRestante =
+                diferencia;
+
+            /*
+            Para que la barra coincida con el
+            contador, calculamos el porcentaje
+            restante en función de los días que
+            faltan desde hoy hasta el objetivo.
+
+            El porcentaje se actualiza cada segundo.
+            */
+
+            const inicioDelDia =
+                new Date();
+
+            inicioDelDia.setHours(0, 0, 0, 0);
+
+
+            const tiempoTotalDelPeriodo =
+                fechaObjetivo1 -
+                inicioDelDia.getTime();
+
+
+            const porcentaje =
+                (tiempoRestante /
+                    tiempoTotalDelPeriodo) * 100;
+
+
+            actualizarProgreso(
+                document.getElementById('progress-bar-vuelo'),
+                porcentaje
+            );
+        }
+
+
+        /*
+        Actualizar inmediatamente al cargar
+        la página.
+        */
+
+        actualizarContador1();
+
+
+        /*
+        Actualizar cada segundo.
+        */
+
+        setInterval(actualizarContador1, 1000);
+
+
+        /*
+        =========================
+        CÓDIGO DE FONDOS
+        =========================
+
+        Se mantiene desactivado.
+
+        const objetivo = 40000000;
+
+        let sumaTotal =
+            parseFloat(
+                localStorage.getItem('sumaTotal')
+            ) || 0;
+
+        function actualizarColor() {
+
+            const porcentaje =
+                sumaTotal / objetivo * 100;
+
+            actualizarProgreso(
+                document.getElementById(
+                    'progress-bar-fondos'
+                ),
+                porcentaje
+            );
+        }
+
+        document.getElementById('resultado').innerText =
+            'Suma total: ' +
+            sumaTotal.toLocaleString();
+
+        document.getElementById('faltante').innerText =
+            'Faltan: ' +
+            (objetivo - sumaTotal).toLocaleString();
+
         actualizarColor();
 
         function sumarNumero() {
-            const numero = parseFloat(document.getElementById('numero').value);
+
+            const numero =
+                parseFloat(
+                    document.getElementById('numero').value
+                );
+
             if (!isNaN(numero)) {
+
                 sumaTotal += numero;
-                localStorage.setItem('sumaTotal', sumaTotal);
-                document.getElementById('resultado').innerText = 'Suma total: ' + sumaTotal.toLocaleString();
-                document.getElementById('faltante').innerText = 'Faltan: ' + (objetivo - sumaTotal).toLocaleString();
+
+                localStorage.setItem(
+                    'sumaTotal',
+                    sumaTotal
+                );
+
+                document.getElementById('resultado').innerText =
+                    'Suma total: ' +
+                    sumaTotal.toLocaleString();
+
+                document.getElementById('faltante').innerText =
+                    'Faltan: ' +
+                    (objetivo - sumaTotal).toLocaleString();
+
                 actualizarColor();
+
                 document.getElementById('numero').value = '';
             }
         }
         */
 
+
+        /*
+        =========================
+        BOTÓN SALIR
+        =========================
+        */
+
         function salir() {
-            window.location.href = 'Redireccionamiento.html';
+
+            window.location.href =
+                'Redireccionamiento.html';
         }
 
+
+        /*
+        =========================
+        CARGA DE HORAS
+        =========================
+        */
+
         function cargarHoras() {
-            window.location.href = 'CargadeHoras.html';
+
+            window.location.href =
+                'CargadeHoras.html';
         }
+
     </script>
+
 </body>
 </html>
