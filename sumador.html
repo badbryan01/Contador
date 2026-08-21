@@ -17,9 +17,10 @@
             margin: 0;
         }
 
-        .fechas {
+         .fechas {
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
@@ -41,17 +42,7 @@
         #fechaObjetivo1 {
             text-align: center;
         }
-
-        /*
-        #fechaActual {
-            text-align: center;
-            flex-grow: 1;
-        }
-
-        #fechaObjetivo2 {
-            text-align: right;
-        }
-        */
+        /* Estilos de fecha actual y fecha objetivo 2 conservados, pero desactivados. */
 
         .container {
             display: grid;
@@ -181,7 +172,7 @@
 
     <div class="fechas">
         <div id="fechaObjetivo1">Fecha objetivo 1: 30-08-2026</div>
-        <div id="fechaActual">Fecha actual: Cargando...</div>
+        <!-- <div id="fechaActual">Fecha actual: Cargando...</div> -->
         <div id="fechaObjetivo2">Fecha objetivo 2: 01-10-2025</div>
     </div>
 
@@ -208,11 +199,13 @@
         </div>
         -->
         <!--
+        <!--
 <div class="card">
             <h1>¿Cuánto falta para la fecha objetivo 2?</h1>
             <div id="countdown2">Cargando...</div>
             <div class="progress-container">
                 <div id="progress-bar-vacaciones" class="progress-bar" style="width: 0%;" data-color="dynamic"></div>
+        -->
             </div>
             <div class="progress-text">Progreso</div>
         </div>
@@ -224,7 +217,8 @@
     </div>
 
     <script>
-        function actualizarFechaActual() {
+        /*
+function actualizarFechaActual() {
             const fecha = new Date();
             const opciones = { 
                 year: 'numeric', 
@@ -237,6 +231,7 @@
             document.getElementById('fechaActual').innerText = 'Fecha actual: ' + fecha.toLocaleDateString('es-ES', opciones);
         }
         setInterval(actualizarFechaActual, 1000);
+        */
 
         const fechaObjetivo1 = new Date('2026-08-30T00:00:00').getTime();
         /* const fechaObjetivo2 = new Date('2025-10-01T00:00:00').getTime(); */
