@@ -19,22 +19,30 @@
 
         .fechas {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
             max-width: 1200px;
         }
 
-        #fechaObjetivo1, #fechaObjetivo2, #fechaActual {
+        #fechaObjetivo1 {
             font-size: 1.2em;
             font-weight: bold;
         }
 
+        /*
+        #fechaObjetivo2, #fechaActual {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        */
+
         #fechaObjetivo1 {
-            text-align: left;
+            text-align: center;
         }
 
+        /*
         #fechaActual {
             text-align: center;
             flex-grow: 1;
@@ -43,6 +51,7 @@
         #fechaObjetivo2 {
             text-align: right;
         }
+        */
 
         .container {
             display: grid;
@@ -171,7 +180,7 @@
 <body>
 
     <div class="fechas">
-        <div id="fechaObjetivo1">Fecha objetivo 1: 01-08-2025</div>
+        <div id="fechaObjetivo1">Fecha objetivo 1: 30-08-2026</div>
         <div id="fechaActual">Fecha actual: Cargando...</div>
         <div id="fechaObjetivo2">Fecha objetivo 2: 01-10-2025</div>
     </div>
@@ -185,8 +194,8 @@
             </div>
             <div class="progress-text">Progreso</div>
         </div>
-
-        <div class="card">
+        <!--
+<div class="card">
             <h1>¿Cuánto llevamos?</h1>
             <input type="number" id="numero" placeholder="Ingrese un número">
             <button onclick="sumarNumero()">Agregar Fondos</button>
@@ -197,8 +206,9 @@
             </div>
             <div class="progress-text">Progreso</div>
         </div>
-
-        <div class="card">
+        -->
+        <!--
+<div class="card">
             <h1>¿Cuánto falta para la fecha objetivo 2?</h1>
             <div id="countdown2">Cargando...</div>
             <div class="progress-container">
@@ -206,6 +216,7 @@
             </div>
             <div class="progress-text">Progreso</div>
         </div>
+        -->
     </div>
 
     <div id="botonSalir">
@@ -227,8 +238,8 @@
         }
         setInterval(actualizarFechaActual, 1000);
 
-        const fechaObjetivo1 = new Date('2025-08-01T00:00:00').getTime();
-        const fechaObjetivo2 = new Date('2025-10-01T00:00:00').getTime();
+        const fechaObjetivo1 = new Date('2026-08-30T00:00:00').getTime();
+        /* const fechaObjetivo2 = new Date('2025-10-01T00:00:00').getTime(); */
 
         function actualizarProgreso(barra, porcentaje) {
             barra.style.width = porcentaje + '%';
@@ -255,6 +266,29 @@
             }
         }
 
+        function actualizarContador1() {
+            const ahora = new Date().getTime();
+            const diferencia = fechaObjetivo1 - ahora;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerText = `Faltan: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+
+            const tiempoTotal = fechaObjetivo1 - new Date('2023-10-04T00:00:00').getTime();
+            const porcentaje = 100 - (diferencia / tiempoTotal) * 100;
+            actualizarProgreso(document.getElementById('progress-bar-vuelo'), porcentaje);
+
+            if (diferencia < 0) {
+                document.getElementById('countdown').innerText = '¡Tiempo terminado!';
+            }
+        }
+
+        setInterval(actualizarContador1, 1000);
+
+        /*
         function actualizarContador2() {
             const ahora = new Date().getTime();
             const diferencia = fechaObjetivo2 - ahora;
@@ -277,7 +311,10 @@
 
         setInterval(actualizarContador1, 1000);
         setInterval(actualizarContador2, 1000);
+        */
 
+
+        /*
         const objetivo = 40000000;
         let sumaTotal = parseFloat(localStorage.getItem('sumaTotal')) || 0;
 
@@ -301,6 +338,7 @@
                 document.getElementById('numero').value = '';
             }
         }
+        */
 
         function salir() {
             window.location.href = 'Redireccionamiento.html';
